@@ -19,7 +19,7 @@ Class User extends Model{
         "id", "nome", "descricao", "email", "cpf", "celular", "genero", "senha", "url_foto_perfil", "token", "created_at", "updated_at",
     ];
     
-    public function token(Request $req, Response $res, $container) {
+    public function token(Request $req, Response $res) {
 
         $dados = $req->getParsedBody();
 
@@ -41,7 +41,7 @@ Class User extends Model{
 
         if ($user && $senha === $user->senha) {
 
-            $secretKey = $container->get(SettingsInterface::class)->get('secretKey');
+            $secretKey = $this->getContainer()->get(SettingsInterface::class)->get('secretKey');
             $payload = [
                 'email' => $user->email,
                 'iat' => time(), // Data de emissão
