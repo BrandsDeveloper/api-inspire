@@ -14,14 +14,15 @@ return function (App $app) {
     
     $app->add(new Tuupola\Middleware\JwtAuthentication([
         "header" => "Authorization",
-        "regexp" => "/(.*)/",
+        "regexp" => "/^Bearer\s(\S+)/",
         "path" => "/v1",
         "ignore" => ["/v1/token"],
         "secret" => $app->getContainer()->get(SettingsInterface::class)->get('secretKey'),
         "algorithm" => ["HS256"],
         "error" => function ($res, $args) {
+            error_log('Token JWT: ' . json_encode($args));
             $data = [
-                "status" => "Erro",
+                "status" => "Error",
                 "message" => $args["message"] . ' Defina um token para acessar a API'
             ];
             $res->getBody()->write( json_encode( $data ) );
