@@ -41,7 +41,7 @@ Class User extends Model{
 
         if ($user && $senha === $user->senha) {
 
-            $secretKey = $this->getContainer()->get(SettingsInterface::class)->get('secretKey');
+            $secretKey = $this->container->get(SettingsInterface::class)->get('secretKey');
             $payload = [
                 'email' => $user->email,
                 'iat' => time(), // Data de emissão
