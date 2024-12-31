@@ -45,6 +45,11 @@ $capsule = $container->get(Capsule::class);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
+// Registre a classe User no contêiner do Slim
+$container[App\Application\Models\User::class] = function ($container) {
+    return new App\Application\Models\User($container); // Passa o contêiner para o construtor
+};
+
 // Register middleware
 $middleware = require __DIR__ . '/../app/middleware.php';
 $middleware($app);
