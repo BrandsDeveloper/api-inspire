@@ -8,7 +8,7 @@ use App\Application\Settings\SettingsInterface;
 use Firebase\JWT\JWT;
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../../');
 $dotenv->load();
 
 Class User extends Model{
