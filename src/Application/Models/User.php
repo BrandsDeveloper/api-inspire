@@ -23,7 +23,7 @@ Class User extends Model{
 
     private $container;
 
-    public function __construct($container = null) {
+    public function __construct($container) {
         $this->container = $container;
         parent::__construct();
     }
