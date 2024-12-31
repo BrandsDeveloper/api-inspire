@@ -40,7 +40,12 @@ $app->group('/v1', function( Group $group) use ($app){
         if ($user && $senha === $user->senha) {
 
             $secretKey = $app->getContainer()->get(SettingsInterface::class)->get('secretKey');
-            $token = JWT::encode($user->email, $secretKey, 'HS256');
+            $payload = [
+                'email' => $user->email,
+                'iat' => time(), // Data de emissão
+                // 'exp' => time() + 3600, 
+            ];
+            $token = JWT::encode($payload, $secretKey, 'HS256');
 
             $user->update( [
                 'token' => $token
