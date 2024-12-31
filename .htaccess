@@ -1,0 +1,22 @@
+Options All -Indexes
+
+<Files .htaccess>
+    order allow,deny
+    deny from all
+</Files>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redireciona para a pasta public, sem exibir na URL
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L]
+
+    # Certifica-se de que o index dentro de public será carregado
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule ^$ /public/index.php [L]
+
+    # Redirecionamento para HTTPS (caso necessário)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
