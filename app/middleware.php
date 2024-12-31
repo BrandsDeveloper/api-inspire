@@ -14,14 +14,12 @@ return function (App $app) {
     
     $app->add(new Tuupola\Middleware\JwtAuthentication([
         "header" => "Authorization",
-        "regexp" => "/^Bearer\s(\S+)/",
+        "regexp" => "/(.*)/",
         "path" => "/v1",
         "ignore" => ["/v1/token"],
         "secret" => $app->getContainer()->get(SettingsInterface::class)->get('secretKey'),
         "algorithm" => ["HS256"],
-        "error" => function ($res, $args) use ($app) {
-            error_log('Token JWT: ' . json_encode($args));
-            error_log('Secret Key: ' . $app->getContainer()->get(SettingsInterface::class)->get('secretKey'));
+        "error" => function ($res, $args) {
             $data = [
                 "status" => "Error",
                 "message" => $args["message"] . ' Defina um token para acessar a API'
@@ -33,13 +31,10 @@ return function (App $app) {
     ]));
     
     $app->add(function (Request $request, RequestHandler $handler): Response {
-        if ($request->getMethod() === 'OPTIONS') {
-            return $handler->handle($request);
-        }
         $response = $handler->handle($request);
         return $response
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'Authorization, X-Requested-With, Content-Type, Accept, Origin')
+            ->withHeader('Access-Control-Allow-Origin', 'https://api-inspire.brandsdev.com.br')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     });
     
