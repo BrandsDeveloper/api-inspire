@@ -18,6 +18,7 @@ return function (App $app) {
         "path" => "/v1",
         "ignore" => ["/v1/token"],
         "secret" => $app->getContainer()->get(SettingsInterface::class)->get('secretKey'),
+        "algorithm" => ["HS256"],
         "error" => function ($res, $args) {
             $data = [
                 "status" => "Erro",
