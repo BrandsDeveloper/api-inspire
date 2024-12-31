@@ -9,8 +9,19 @@ use App\Application\Settings\SettingsInterface;
 use App\Application\Models\User;
 use Firebase\JWT\JWT;
 
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+$dotenv->load();
+
 
 $app->group('/v1', function( Group $group) use ($app){
+
+    
+    $group->get('/hello', function(Request $req, Response $res){
+        $res->getBody()->write($_ENV['HOST']);
+        return $res->withHeader('Content-Type', 'application/json')->withStatus(400);
+    });
 
 
     $group->post('/token', function (Request $req, Response $res) use ($app) {

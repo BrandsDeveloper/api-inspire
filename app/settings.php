@@ -6,6 +6,10 @@ use App\Application\Settings\Settings;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
 use Monolog\Logger;
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
 return function (ContainerBuilder $containerBuilder) {
 
@@ -23,15 +27,15 @@ return function (ContainerBuilder $containerBuilder) {
                 ],
                 'db' => [
                     'driver' => 'mysql',
-                    'host' => '191.252.210.92',
-                    'database' => 'api-inspire',
-                    'username' => 'inspire-learn',
-                    'password' => 'pSEai6pb4DSP73d7',
+                    'host' => $_ENV['HOST'],
+                    'database' => $_ENV['DATABASE'],
+                    'username' => $_ENV['USERNAME'],
+                    'password' => $_ENV['PASSWORD'],
                     'charset' => 'utf8mb4',
                     'collation' => 'utf8mb4_unicode_ci',
                     'prefix' => 'edu_',
                 ],
-                'secretKey' => 'a49cd402f0cc288c1481beb984290553c7f50bf0',
+                'secretKey' => $_ENV['KEY'],
             ]);
         },
     ]);
