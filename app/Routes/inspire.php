@@ -17,13 +17,6 @@ $dotenv->load();
 
 $app->group('/v1', function( Group $group) use ($app){
 
-    
-    $group->get('/hello', function(Request $req, Response $res){
-        $res->getBody()->write($_ENV['HOST']);
-        return $res->withHeader('Content-Type', 'application/json')->withStatus(400);
-    });
-
-
     $group->post('/token', function (Request $req, Response $res) use ($app) {
 
         $dados = $req->getParsedBody();
@@ -66,7 +59,6 @@ $app->group('/v1', function( Group $group) use ($app){
         ]));
         return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
     });
-
 
     // Rotas Curso
     $group->get('/cursos', '\App\Application\Models\Curso:getCurso');
