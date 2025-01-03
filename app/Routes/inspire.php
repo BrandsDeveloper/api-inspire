@@ -16,6 +16,8 @@ $dotenv->load();
 
 $app->group('/v1', function( Group $group) use ($app){
 
+    $group->post('/auth', '\App\Application\Models\User:login');
+
     $group->post('/token', function (Request $req, Response $res) use ($app) {
 
         $dados = $req->getParsedBody();
