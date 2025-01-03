@@ -11,4 +11,11 @@ Class User extends Model{
         "id", "nome", "descricao", "email", "cpf", "celular", "genero", "senha", "url_foto_perfil", "token", "created_at", "updated_at",
     ];
     
+
+    public function getUser(Request $req, Response $res){
+        $user = User::get();
+        $res->getBody()->write(json_encode( $user ));
+        return $res->withHeader('Content-Type', 'application/json');
+    }
+
 }
