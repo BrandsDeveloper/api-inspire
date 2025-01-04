@@ -35,7 +35,7 @@ Class User extends Model{
 
             $res->getBody()->write(json_encode([
                 'status' => 'sucesso',
-                'message' => 'Usuário Autenticado',
+                'message' => 'Login realizado com sucesso',
                 'auth' => true,
             ]));
             return $res->withHeader('Content-Type', 'application/json');
@@ -43,7 +43,7 @@ Class User extends Model{
 
         $res->getBody()->write(json_encode([
             'status' => 'erro',
-            'message' => 'Credenciais inválidas.',
+            'message' => 'Credenciais inválidas, verifique sua senha e tente novamente.',
             'auth' => false,
         ]));
         return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
