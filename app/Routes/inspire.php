@@ -96,7 +96,9 @@ $app->group('/v1', function( Group $group) use ($app){
     $group->post('/categorias/{id}', '\App\Application\Models\Categoria:updateCategoria');
     $group->delete('/categorias/{id}', '\App\Application\Models\Categoria:deleteCategoria');
 
-    $group->get('/user', '\App\Application\Models\User:getUser');
+    // Rota de Usuário
+    $group->get('/user/{id}', '\App\Application\Models\User:getUserById');
+    $group->get('/user/create', '\App\Application\Models\User:addUser');
 
 
 });

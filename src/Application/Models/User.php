@@ -11,7 +11,7 @@ Class User extends Model{
         "id", "nome", "descricao", "email", "cpf", "celular", "genero", "senha", "url_foto_perfil", "token", "created_at", "updated_at",
     ];
     
-    public function login(Request $req, Response $res) {
+    public function auth(Request $req, Response $res) {
 
         $dados = $req->getParsedBody();
 
@@ -37,6 +37,7 @@ Class User extends Model{
                 'status' => 'sucesso',
                 'message' => 'Login realizado com sucesso',
                 'auth' => true,
+                'id_user' => $user->id,
             ]));
             return $res->withHeader('Content-Type', 'application/json');
         }
@@ -49,10 +50,18 @@ Class User extends Model{
         return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
     }
 
-    public function getUser(Request $req, Response $res){
-        $user = User::get();
+    public function getUserByID(Request $req, Response $res, $args){
+        $user = User::findOrFail( $args['id'] );
         $res->getBody()->write(json_encode( $user ));
         return $res->withHeader('Content-Type', 'application/json');
+    }
+
+    public function addUser(Request $req, Response $res){
+        $dados = $req->getParsedBody();
+        $user = User::created($dados);
+        $res->getBody()->write(json_encode($user));
+        return $res->withHeader('Content-Type', 'application/json');
+
     }
 
 }
