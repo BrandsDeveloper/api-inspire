@@ -69,6 +69,7 @@ Class User extends Model{
         $secretKey = $settings->get('secretKey');
 
         $userFilter = User::where('email', $dados['email'])
+        ->orWhere('cpf', $dados['cpf'])
         ->first();
 
         if($dados['email'] === $userFilter->email){
