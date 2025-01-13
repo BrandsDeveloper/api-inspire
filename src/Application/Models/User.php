@@ -68,6 +68,25 @@ Class User extends Model{
         $settings = $container->get(SettingsInterface::class);
         $secretKey = $settings->get('secretKey');
 
+        $userFilter = User::where('email', $dados['email'])
+        ->first();
+
+        if($dados['email'] === $userFilter->email){
+            $res->getBody()->write(json_encode([
+                'status' => 'erro',
+                'message' => 'O e-mail que você inseriu já está em uso. Tente fazer login.',
+            ]));
+            return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
+        }
+
+        if($dados['cpf'] === $userFilter->cpf){
+            $res->getBody()->write(json_encode([
+                'status' => 'erro',
+                'message' => 'O CPF que você inseriu já está em uso. Tente fazer login.',
+            ]));
+            return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
+        }
+
         $payload = [
             'email' => $dados['email'],
             'iat' => time(), // Data de emissão
