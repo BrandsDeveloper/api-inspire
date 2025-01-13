@@ -69,18 +69,18 @@ Class User extends Model{
         $secretKey = $settings->get('secretKey');
 
         $payload = [
-            'email' => $dados->email,
+            'email' => $dados['email'],
             'iat' => time(), // Data de emissão
             // 'exp' => time() + 3600, 
         ];
         $token = JWT::encode($payload, $secretKey, 'HS256');
 
         $insert = [
-            'nome' => $dados->nome,
-            'email' => $dados->email,
-            'cpf' => $dados->cpf,
-            'celular' => $dados->celular,
-            'senha' => $dados->senha,
+            'nome' => $dados['nome'],
+            'email' => $dados['email'],
+            'cpf' => $dados['cpf'],
+            'celular' => $dados['celular'],
+            'senha' => $dados['senha'],
             'token' => $token
         ];
 
