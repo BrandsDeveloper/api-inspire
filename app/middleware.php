@@ -16,7 +16,7 @@ return function (App $app) {
         "header" => "Authorization",
         "regexp" => "/^Bearer\s(\S+)/",
         "path" => "/v1",
-        "ignore" => ["/v1/token", "/v1/auth"],
+        "ignore" => ["/v1/token", "/v1/auth", "/v1/user/create"],
         "secret" => $app->getContainer()->get(SettingsInterface::class)->get('secretKey'),
         "algorithm" => ["HS256"],
         "error" => function ($res, $args) {

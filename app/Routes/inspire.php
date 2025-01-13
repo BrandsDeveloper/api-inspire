@@ -98,7 +98,7 @@ $app->group('/v1', function( Group $group) use ($app){
 
     // Rota de Usuário
     $group->get('/user/{id}', '\App\Application\Models\User:getUserById');
-    $group->get('/user/create', '\App\Application\Models\User:addUser');
+    $group->post('/user/create', '\App\Application\Models\User:addUser');
 
 
 });
