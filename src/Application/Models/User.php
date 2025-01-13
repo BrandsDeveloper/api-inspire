@@ -14,14 +14,6 @@ Class User extends Model{
     protected $fillable = [
         "id", "nome", "descricao", "email", "cpf", "celular", "genero", "senha", "url_foto_perfil", "token", "created_at", "updated_at",
     ];
-
-    private ContainerInterface $container;
-    
-    // Adicione o construtor para injetar o container
-    public function __construct(ContainerInterface $container) {
-        parent::__construct();
-        $this->container = $container;
-    }
     
     public function auth(Request $req, Response $res) {
 
@@ -72,7 +64,8 @@ Class User extends Model{
     public function addUser(Request $req, Response $res) {
         $dados = $req->getParsedBody();
 
-        $settings = $this->container->get(SettingsInterface::class);
+        global $container;
+        $settings = $container->get(SettingsInterface::class);
         $secretKey = $settings->get('secretKey');
 
         $payload = [

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Application\Models\User;
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
@@ -13,6 +14,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
+
         LoggerInterface::class => function (ContainerInterface $c) {
             $settings = $c->get(SettingsInterface::class);
 
@@ -36,5 +38,10 @@ return function (ContainerBuilder $containerBuilder) {
             $capsule->bootEloquent();
             return $capsule;
         },
+
+        User::class => function (ContainerInterface $c) {
+            return new User();
+        },
+        
     ]);
 };
