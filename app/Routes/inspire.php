@@ -18,6 +18,33 @@ $app->group('/v1', function( Group $group) use ($app){
 
     $group->post('/auth', '\App\Application\Models\User:auth');
 
+    $group->get('/token/{token}', function (Request $req, Response $res, $args) use ($app) {
+
+
+        $secretKey = $app->getContainer()->get(SettingsInterface::class)->get('secretKey');
+        $token = $args['token'];
+
+        try {
+            $decoded = JWT::decode($token, new Key($secretKey, 'HS256'));
+    
+            $res->getBody()->write(json_encode([
+                'status' => 'sucesso',
+                'auth' => true,
+                'token' => $decoded,
+            ]));
+            return $res->withHeader('Content-Type', 'application/json');
+            
+        } catch (\Throwable $e) {
+            
+            $res->getBody()->write(json_encode([
+                'status' => 'erro',
+                'message' => 'Credenciais inválidas.',
+                'auth' => false,
+            ]));
+            return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
+        }
+    });
+
     $group->post('/token', function (Request $req, Response $res) use ($app) {
 
         $dados = $req->getParsedBody();
