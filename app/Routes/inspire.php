@@ -30,8 +30,8 @@ $app->group('/v1', function( Group $group) use ($app){
     
             $res->getBody()->write(json_encode([
                 'status' => 'sucesso',
+                'message' => 'Token válido.',
                 'auth' => true,
-                'token' => $decoded,
             ]));
             return $res->withHeader('Content-Type', 'application/json');
 
@@ -39,7 +39,7 @@ $app->group('/v1', function( Group $group) use ($app){
             
             $res->getBody()->write(json_encode([
                 'status' => 'erro',
-                'message' => 'Credenciais inválidas.',
+                'message' => 'Token inválido.',
                 'auth' => false,
             ]));
             return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
