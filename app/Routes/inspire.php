@@ -8,6 +8,7 @@ use Slim\Interfaces\RouteCollectorProxyInterface as Group;
 use App\Application\Settings\SettingsInterface;
 use App\Application\Models\User;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 use Dotenv\Dotenv;
 
@@ -33,7 +34,7 @@ $app->group('/v1', function( Group $group) use ($app){
                 'token' => $decoded,
             ]));
             return $res->withHeader('Content-Type', 'application/json');
-            
+
         } catch (\Throwable $e) {
             
             $res->getBody()->write(json_encode([
