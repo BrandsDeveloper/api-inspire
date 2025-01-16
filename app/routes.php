@@ -18,7 +18,7 @@ return function (App $app) {
     $app->get('/uploads/{filename}', function (Request $request, Response $response, $args) {
         $filename = $args['filename']; // Obtém o nome do arquivo da URL
     
-        $filePath = __DIR__ . '/../../uploads/' . $filename;
+        $filePath = __DIR__ . '/../uploads/' . $filename;
     
         if (file_exists($filePath)) {
             
