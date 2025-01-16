@@ -20,14 +20,27 @@ return function (App $app) {
     
         $filePath = __DIR__ . '/../uploads/' . $filename;
     
-        if (file_exists($filePath)) {
+        // if (file_exists($filePath)) {
             
-            $mimeType = mime_content_type($filePath);
-            $response = $response->withHeader('Content-Type', $mimeType);
+        //     $mimeType = mime_content_type($filePath);
+        //     $response = $response->withHeader('Content-Type', $mimeType);
     
+        //     $fileContent = file_get_contents($filePath);
+        //     $response->getBody()->write($fileContent);
+    
+        //     return $response;
+        // }
+
+        if (file_exists($filePath)) {
+            // Usando finfo para obter o MIME type
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $mimeType = $finfo->file($filePath);
+            
+            $response = $response->withHeader('Content-Type', $mimeType);
+        
             $fileContent = file_get_contents($filePath);
             $response->getBody()->write($fileContent);
-    
+        
             return $response;
         }
     
