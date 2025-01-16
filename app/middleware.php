@@ -15,7 +15,7 @@ return function (App $app) {
     $app->add(new Tuupola\Middleware\JwtAuthentication([
         "header" => "Authorization",
         "regexp" => "/^Bearer\s(\S+)/",
-        "path" => "/v1",
+        "path" => ["/v1", "/uploads"],
         "ignore" => ["/v1/token", "/v1/auth", "/v1/user/create"],
         "secret" => $app->getContainer()->get(SettingsInterface::class)->get('secretKey'),
         "algorithm" => ["HS256"],
