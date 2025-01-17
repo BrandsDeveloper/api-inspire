@@ -72,20 +72,22 @@ Class User extends Model{
         ->orWhere('cpf', $dados['cpf'])
         ->first();
 
-        if($dados['email'] === $userFilter->email){
-            $res->getBody()->write(json_encode([
-                'status' => 'erro',
-                'message' => 'O e-mail que você inseriu já está em uso. Tente fazer login.',
-            ]));
-            return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
-        }
+        if($userFilter){
+            if($dados['email'] === $userFilter->email){
+                $res->getBody()->write(json_encode([
+                    'status' => 'erro',
+                    'message' => 'O e-mail que você inseriu já está em uso. Tente fazer login.',
+                ]));
+                return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
+            }
 
-        if($dados['cpf'] === $userFilter->cpf){
-            $res->getBody()->write(json_encode([
-                'status' => 'erro',
-                'message' => 'O CPF que você inseriu já está em uso. Tente fazer login.',
-            ]));
-            return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
+            if($dados['cpf'] === $userFilter->cpf){
+                $res->getBody()->write(json_encode([
+                    'status' => 'erro',
+                    'message' => 'O CPF que você inseriu já está em uso. Tente fazer login.',
+                ]));
+                return $res->withStatus(401)->withHeader('Content-Type', 'application/json');
+            }
         }
 
         $payload = [
@@ -105,7 +107,8 @@ Class User extends Model{
         ];
 
         $user = User::create($insert);
-        $res->getBody()->write(json_encode($user));
+        $res->getBody()->write($user->toJson());
+        // $res->getBody()->write(json_encode($user));
         return $res->withHeader('Content-Type', 'application/json');
 
     }
