@@ -12,7 +12,7 @@ Class Curso extends Model{
 
 
     protected $fillable = [
-        "nome", "descricao", "url_capa", "created_at", "updated_at"
+        "nome", "slug", "resumo", "descricao", "url_capa", "url_destaque", "nivel", "responsavel",  "created_at", "updated_at"
     ];
 
     public function getCurso(Request $req, Response $res){
@@ -191,16 +191,26 @@ Class Curso extends Model{
         $dados = $req->getParsedBody();
         $file = $req->getUploadedFiles();
         
-        $arquivo = $file['url_capa'];
-        $nome_arquivo = rand(1000000000,10000000000). '-' . $file['url_capa']->getClientFilename();
+        $capa = $file['url_capa'];
+        $destaque = $file['url_destaque'];
+        $nome_capa = rand(1000000000,10000000000). '-' . $file['url_capa']->getClientFilename();
+        $nome_destaque = rand(1000000000,10000000000). '-' . $file['url_destaque']->getClientFilename();
 
-        $caminhoArquivo = __DIR__ . '/../../../uploads/' . $nome_arquivo;
-        $arquivo->moveTo($caminhoArquivo);
+        $caminhoCapa = __DIR__ . '/../../../uploads/' . $nome_capa;
+        $capa->moveTo($caminhoCapa);
+
+        $caminhoDestaque = __DIR__ . '/../../../uploads/' . $nome_destaque;
+        $capa->moveTo($caminhoDestaque);
 
         $insert = array(
             'nome' => $dados["nome"],
+            'slug' => $dados["slug"],
+            'resumo' => $dados["resumo"],
             'descricao' => $dados["descricao"],
-            'url_capa' => 'https://api-inspire.brandsdev.com.br/uploads/'.$nome_arquivo
+            'nivel' => $dados["nivel"],
+            'responsavel' => $dados["responsavel"],
+            'url_capa' => 'https://api-inspire.brandsdev.com.br/uploads/'.$nome_capa,
+            'url_destaque' => 'https://api-inspire.brandsdev.com.br/uploads/'.$nome_destaque
         );
 
         $curso = Curso::create( $insert );
@@ -213,28 +223,47 @@ Class Curso extends Model{
 
     public function updateCurso(Request $req, Response $res, $args){
         $dados = $req->getParsedBody();
-        $file = $req->getUploadedFiles()['url_capa'] ?? null;
+        $capa = $req->getUploadedFiles()['url_capa'] ?? null;
+        $destaque = $req->getUploadedFiles()['url_destaque'] ?? null;
         
         $insert = array(
             'nome' => $dados["nome"],
+            'slug' => $dados["slug"],
+            'resumo' => $dados["resumo"],
             'descricao' => $dados["descricao"],
+            'nivel' => $dados["nivel"],
+            'responsavel' => $dados["responsavel"],
             'updated_at' => date('m/d/Y h:i:s a', time())
         );
 
-        if (isset($file) && $file->getError() === UPLOAD_ERR_OK) {
+        if (isset($capa) && $capa->getError() === UPLOAD_ERR_OK) {
 
-            $nome_arquivo = rand(1000000000, 10000000000) . '-' . $file->getClientFilename();
+            $nome_arquivo = rand(1000000000, 10000000000) . '-' . $capa->getClientFilename();
             $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_arquivo;
             
-            $file->moveTo($caminhoArquivo);
+            $capa->moveTo($caminhoArquivo);
             
             $insert['url_capa'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_arquivo;
+        }
+
+        if (isset($destaque) && $destaque->getError() === UPLOAD_ERR_OK) {
+
+            $nome_arquivo = rand(1000000000, 10000000000) . '-' . $destaque->getClientFilename();
+            $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_arquivo;
+            
+            $destaque->moveTo($caminhoArquivo);
+            
+            $insert['url_destaque'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_arquivo;
         }
     
         $curso = Curso::findOrFail($args['id']);
     
         if (!isset($insert['url_capa'])) {
             $insert['url_capa'] = $curso->url_capa; // Mantém o valor antigo da url_capa
+        }
+    
+        if (!isset($insert['url_destaque'])) {
+            $insert['url_destaque'] = $curso->url_capa; // Mantém o valor antigo da url_destaque
         }
 
         $curso->update( $insert );
