@@ -267,7 +267,7 @@ Class Curso extends Model{
         if (isset($capa) && $capa->getError() === UPLOAD_ERR_OK) {
 
             $nome_capa = rand(1000000000, 10000000000) . '-' . $capa->getClientFilename();
-            $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_capa;
+            $caminhoArquivo = __DIR__ . '/../../../uploads/' . $nome_capa;
             
             $capa->moveTo($caminhoArquivo);
             
@@ -277,7 +277,7 @@ Class Curso extends Model{
         if (isset($destaque) && $destaque->getError() === UPLOAD_ERR_OK) {
 
             $nome_destaque = rand(1000000000, 10000000000) . '-' . $destaque->getClientFilename();
-            $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_destaque;
+            $caminhoArquivo = __DIR__ . '/../../../uploads/' . $nome_destaque;
             
             $destaque->moveTo($caminhoArquivo);
             
