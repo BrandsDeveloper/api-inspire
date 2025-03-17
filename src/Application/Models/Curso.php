@@ -266,22 +266,22 @@ Class Curso extends Model{
 
         if (isset($capa) && $capa->getError() === UPLOAD_ERR_OK) {
 
-            $nome_arquivo = rand(1000000000, 10000000000) . '-' . $capa->getClientFilename();
-            $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_arquivo;
+            $nome_capa = rand(1000000000, 10000000000) . '-' . $capa->getClientFilename();
+            $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_capa;
             
             $capa->moveTo($caminhoArquivo);
             
-            $insert['url_capa'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_arquivo;
+            $insert['url_capa'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_capa;
         }
 
         if (isset($destaque) && $destaque->getError() === UPLOAD_ERR_OK) {
 
-            $nome_arquivo = rand(1000000000, 10000000000) . '-' . $destaque->getClientFilename();
-            $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_arquivo;
+            $nome_destaque = rand(1000000000, 10000000000) . '-' . $destaque->getClientFilename();
+            $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_destaque;
             
             $destaque->moveTo($caminhoArquivo);
             
-            $insert['url_destaque'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_arquivo;
+            $insert['url_destaque'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_destaque;
         }
     
         $curso = Curso::findOrFail($args['id']);
@@ -291,7 +291,7 @@ Class Curso extends Model{
         }
     
         if (!isset($insert['url_destaque'])) {
-            $insert['url_destaque'] = $curso->url_capa; // Mantém o valor antigo da url_destaque
+            $insert['url_destaque'] = $curso->url_destaque; // Mantém o valor antigo da url_destaque
         }
 
         $curso->update( $insert );
