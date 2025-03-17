@@ -107,7 +107,7 @@ $app->group('/v1', function( Group $group) use ($app){
     $group->get('/cursos/{id}/modulos', '\App\Application\Models\Modulo:getModulosByCurso');
     $group->get('/cursos/{curso_id}/modulos/{modulo_id}', '\App\Application\Models\Modulo:getModuloById');
     $group->post('/cursos/{id}/modulos/create', '\App\Application\Models\Modulo:addModuloToCurso');
-    $group->put('/cursos/{curso_id}/modulos/{modulo_id}', '\App\Application\Models\Modulo:updateModuloByCurso');
+    $group->post('/cursos/{curso_id}/modulos/{modulo_id}', '\App\Application\Models\Modulo:updateModuloByCurso');
     $group->delete('/cursos/{curso_id}/modulos/{modulo_id}', '\App\Application\Models\Modulo:deleteModuloByCurso');    
     
     // Rotas Aulas
