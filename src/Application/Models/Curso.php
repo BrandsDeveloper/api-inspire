@@ -105,6 +105,13 @@ Class Curso extends Model{
             return [
                 'curso_id' => $curso->curso_id,
                 'curso_nome' => $curso->curso_nome,
+                'curso_slug' => $curso->curso_slug,
+                'curso_resumo' => $curso->curso_resumo,
+                'curso_descricao' => $curso->curso_descricao,
+                'curso_url_capa' => $curso->curso_url_capa,
+                'curso_url_destaque' => $curso->curso_url_destaque,
+                'curso_url_nivel' => $curso->curso_url_nivel,
+                'curso_url_responsavel' => $curso->curso_url_responsavel,
                 'modulos' => $modulos->values(),
                 'categorias' => $categorias->values(),
             ];
