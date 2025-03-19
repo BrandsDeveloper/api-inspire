@@ -129,7 +129,7 @@ Class Curso extends Model{
 
     }
 
-    public function getCursoIdAll(Request $req, Response $res, $args){
+    public function getCursoSlugAll(Request $req, Response $res, $args){
 
         $curso = self::join('modulos', 'modulos.curso_id', '=', 'cursos.id')
             ->leftJoin('cursos_categorias', 'cursos_categorias.curso_id', '=', 'cursos.id')
@@ -157,7 +157,7 @@ Class Curso extends Model{
                 'categorias.nome as categoria_nome',
                 'categorias.descricao as categoria_descricao'
             )
-            ->where('cursos.id', '=', $args['id'])
+            ->where('cursos.slug', '=', $args['slug'])
             ->orderBy('cursos.id')
             ->orderBy('modulos.id')
             ->orderBy('aulas.id')
