@@ -98,7 +98,7 @@ $app->group('/v1', function( Group $group) use ($app){
     $group->get('/cursos', '\App\Application\Models\Curso:getCurso');
     $group->get('/cursos/all', '\App\Application\Models\Curso:getCursoAll');
     $group->get('/cursos/{id}', '\App\Application\Models\Curso:getCursoId');
-    $group->get('/cursos/{slug}/all', '\App\Application\Models\Curso:getCursoIdAll');
+    $group->get('/cursos/{slug}/all', '\App\Application\Models\Curso:getCursoSlugAll');
     $group->post('/cursos/create', '\App\Application\Models\Curso:addCurso');
     $group->post('/cursos/{id}', '\App\Application\Models\Curso:updateCurso');
     $group->delete('/cursos/{id}', '\App\Application\Models\Curso:deleteCurso');
