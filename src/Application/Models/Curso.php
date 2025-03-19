@@ -24,7 +24,7 @@ Class Curso extends Model{
 
         $cursoComCategorias = $curso->groupBy('id')->map(function ($item) {
             
-            $categorias = $item->pluck('Categoria')->toArray();
+            $categorias = $item->pluck('categoria')->toArray();
             
             $curso = $item->first();
             $curso->Categoria = $categorias;
