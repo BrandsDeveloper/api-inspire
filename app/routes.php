@@ -26,16 +26,15 @@ return function (App $app) {
         // Obtém o tipo MIME do arquivo
         $mimeType = mime_content_type($filePath);
         
-        // Adiciona cabeçalhos de cache
+        // Configura os cabeçalhos para permitir cache e exibir corretamente no navegador
         $response = $response
-            ->withHeader('Cache-Control', 'public, max-age=31536000') // Cache por 1 ano
+            ->withHeader('Cache-Control', 'public, max-age=31536000') // Cache de longo prazo
             ->withHeader('Content-Type', $mimeType)
             ->withHeader('Content-Length', filesize($filePath));
     
-        // Usa `readfile()` em vez de `file_get_contents()` para melhor performance
-        readfile($filePath);
-        
-        return $response;
+        // **IMPORTANTE**: Retornar um stream do arquivo para evitar caracteres quebrados
+        $stream = fopen($filePath, 'rb'); // 'rb' = read binary (leitura binária)
+        return $response->withBody(new \Slim\Http\Stream($stream));
     });
     
 
