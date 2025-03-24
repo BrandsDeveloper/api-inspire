@@ -62,6 +62,7 @@ Class Curso extends Model{
                 'cursos.nivel as curso_nivel',
                 'cursos.responsavel as curso_responsavel',
                 'modulos.id as modulo_id',
+                'modulos.slug as modulo_slug',
                 'modulos.nome as modulo_nome',
                 'aulas.id as aula_id',
                 'aulas.nome as aula_nome',
@@ -95,6 +96,7 @@ Class Curso extends Model{
                 $modulo = $moduloItems->first();
                 return [
                     'modulo_id' => $modulo->modulo_id,
+                    'modulo_slug' => $modulo->modulo_slug,
                     'modulo_nome' => $modulo->modulo_nome,
                     'aulas' => $aulas,
                 ];
@@ -146,6 +148,7 @@ Class Curso extends Model{
                 'cursos.nivel as curso_nivel',
                 'cursos.responsavel as curso_responsavel',
                 'modulos.id as modulo_id',
+                'modulos.slug as modulo_slug',
                 'modulos.nome as modulo_nome',
                 'aulas.id as aula_id',
                 'aulas.nome as aula_nome',
@@ -180,6 +183,7 @@ Class Curso extends Model{
                 $modulo = $moduloItems->first();
                 return [
                     'modulo_id' => $modulo->modulo_id,
+                    'modulo_slug' => $modulo->modulo_slug,
                     'modulo_nome' => $modulo->modulo_nome,
                     'aulas' => $aulas,
                 ];

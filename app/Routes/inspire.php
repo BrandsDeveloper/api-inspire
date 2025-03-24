@@ -46,6 +46,23 @@ $app->group('/v1', function( Group $group) use ($app){
         }
     });
 
+    // $group->get('/token', function (Request $req, Response $res) use ($app) {
+
+    //     $secretKey = $app->getContainer()->get(SettingsInterface::class)->get('secretKey');
+    //     $payload = [
+    //         'app' => 'frontend',
+    //         'iat' => time(), // Data de emissão
+    //         // 'exp' => time() + 3600, 
+    //     ];
+    //     $token = JWT::encode($payload, $secretKey, 'HS256');
+
+    //     $res->getBody()->write(json_encode([
+    //         'status' => 'sucesso',
+    //         'key' => $token,
+    //     ]));
+    //     return $res->withHeader('Content-Type', 'application/json');
+    // });
+
     $group->post('/token', function (Request $req, Response $res) use ($app) {
 
         $dados = $req->getParsedBody();
@@ -112,7 +129,7 @@ $app->group('/v1', function( Group $group) use ($app){
     
     // Rotas Aulas
     $group->get('/modulos/{modulo_id}/aulas', '\App\Application\Models\Aula:getAulasByModulo');
-    $group->get('/modulos/{modulo_id}/aulas/{aula_id}', '\App\Application\Models\Aula:getAulaById');
+    $group->get('/modulos/{modulo_slug}/aulas/{aula_id}', '\App\Application\Models\Aula:getAulaByModulo');
     $group->post('/modulos/{id}/aulas/create', '\App\Application\Models\Aula:addAulaToModulo');
     $group->post('/modulos/{modulo_id}/aulas/{aula_id}', '\App\Application\Models\Aula:updateAulaByModulo');
     $group->delete('/modulos/{modulo_id}/aulas/{aula_id}', '\App\Application\Models\Aula:deleteAulaByModulo');

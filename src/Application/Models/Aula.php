@@ -35,11 +35,11 @@ Class Aula extends Model{
 
     }
 
-    public function getAulaById(Request $req, Response $res, $args){
+    public function getAulaByModulo(Request $req, Response $res, $args){
 
         $aula = self::leftJoin('modulos', 'aulas.modulo_id', '=', 'modulos.id')
         ->select( 'aulas.*')
-        ->where('modulos.id', '=', $args['modulo_id'])
+        ->where('modulos.slug', '=', $args['modulo_slug'])
         ->where('aulas.id', '=', $args['aula_id'])
         ->get();
 
