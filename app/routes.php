@@ -16,36 +16,28 @@ return function (App $app) {
     });
 
     $app->get('/uploads/{filename}', function (Request $request, Response $response, $args) {
-        $filename = $args['filename']; // Obtém o nome do arquivo da URL
-    
+        $filename = $args['filename'];
         $filePath = __DIR__ . '/../uploads/' . $filename;
     
-        if (file_exists($filePath)) {
-            
-            $mimeType = mime_content_type($filePath);
-            $response = $response->withHeader('Content-Type', $mimeType);
-    
-            $fileContent = file_get_contents($filePath);
-            $response->getBody()->write($fileContent);
-    
-            return $response;
+        if (!file_exists($filePath)) {
+            return $response->withStatus(404)->write('Arquivo não encontrado');
         }
-
-        // if (file_exists($filePath)) {
-        //     // Usando finfo para obter o MIME type
-        //     $finfo = new finfo(FILEINFO_MIME_TYPE);
-        //     $mimeType = $finfo->file($filePath);
-            
-        //     $response = $response->withHeader('Content-Type', $mimeType);
-        
-        //     $fileContent = file_get_contents($filePath);
-        //     $response->getBody()->write($fileContent);
-        
-        //     return $response;
-        // }
     
-        return $response->withStatus(404)->write('Arquivo não encontrado');
+        // Obtém o tipo MIME do arquivo
+        $mimeType = mime_content_type($filePath);
+        
+        // Adiciona cabeçalhos de cache
+        $response = $response
+            ->withHeader('Cache-Control', 'public, max-age=31536000') // Cache por 1 ano
+            ->withHeader('Content-Type', $mimeType)
+            ->withHeader('Content-Length', filesize($filePath));
+    
+        // Usa `readfile()` em vez de `file_get_contents()` para melhor performance
+        readfile($filePath);
+        
+        return $response;
     });
+    
 
     require __DIR__ . '/Routes/inspire.php';
 
