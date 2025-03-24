@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Exception\HttpNotFoundException;
+use Nyholm\Psr7\Stream;
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
@@ -20,21 +21,21 @@ return function (App $app) {
         $filePath = __DIR__ . '/../uploads/' . $filename;
     
         if (!file_exists($filePath)) {
-            return $response->withStatus(404)->write('Arquivo não encontrado');
+            return $response->withStatus(404)->withHeader('Content-Type', 'text/plain')->write('Arquivo não encontrado');
         }
     
         // Obtém o tipo MIME do arquivo
         $mimeType = mime_content_type($filePath);
-        
-        // Configura os cabeçalhos para permitir cache e exibir corretamente no navegador
-        $response = $response
-            ->withHeader('Cache-Control', 'public, max-age=31536000') // Cache de longo prazo
-            ->withHeader('Content-Type', $mimeType)
-            ->withHeader('Content-Length', filesize($filePath));
     
-        // **IMPORTANTE**: Retornar um stream do arquivo para evitar caracteres quebrados
-        $stream = fopen($filePath, 'rb'); // 'rb' = read binary (leitura binária)
-        return $response->withBody(new \Slim\Http\Stream($stream));
+        // Abre um stream para ler o arquivo
+        $stream = Stream::create(fopen($filePath, 'rb'));
+    
+        // Configura os cabeçalhos da resposta
+        return $response
+            ->withHeader('Content-Type', $mimeType)
+            ->withHeader('Cache-Control', 'public, max-age=31536000') // Cache por 1 ano
+            ->withHeader('Content-Length', filesize($filePath))
+            ->withBody($stream);
     });
     
 
