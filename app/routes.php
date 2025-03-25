@@ -8,7 +8,9 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Slim\Exception\HttpNotFoundException;
-use Nyholm\Psr7\Stream;
+use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\Utils;
+
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
@@ -27,15 +29,15 @@ return function (App $app) {
         // Obtém o tipo MIME do arquivo
         $mimeType = mime_content_type($filePath);
     
-        // Abre um stream para ler o arquivo
-        $stream = Stream::create(fopen($filePath, 'rb'));
+        // Cria um stream para o arquivo
+        $stream = Utils::tryFopen($filePath, 'rb'); // Método seguro para abrir o arquivo
     
-        // Configura os cabeçalhos da resposta
+        // Configura os cabeçalhos da resposta e envia o arquivo
         return $response
             ->withHeader('Content-Type', $mimeType)
             ->withHeader('Cache-Control', 'public, max-age=31536000') // Cache por 1 ano
             ->withHeader('Content-Length', filesize($filePath))
-            ->withBody($stream);
+            ->withBody(new Stream($stream));
     });
     
 

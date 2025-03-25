@@ -25,6 +25,7 @@
         "php": "^7.4 || ^8.0",
         "ext-json": "*",
         "firebase/php-jwt": "^5.5",
+        "guzzlehttp/psr7": "^2.7",
         "illuminate/database": "^11.36",
         "monolog/monolog": "^2.8",
         "php-di/php-di": "^6.4",
