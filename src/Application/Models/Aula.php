@@ -68,7 +68,7 @@ Class Aula extends Model{
         $arquivo = $file['url_capa'];
         $nome_arquivo = rand(1000000000,10000000000). '-' . $file['url_capa']->getClientFilename();
 
-        $caminhoArquivo = __DIR__ . '/../../../uploads/' . $nome_arquivo;
+        $caminhoArquivo = __DIR__ . '/../../../../assets-inspire/uploads/' . $nome_arquivo;
         $arquivo->moveTo($caminhoArquivo);
 
         if( $aula ){
@@ -77,7 +77,7 @@ Class Aula extends Model{
                 'modulo_id' => $args['id'],
                 'nome' => $dados["nome"],
                 'descricao' => $dados["descricao"],
-                'url_capa' => 'https://api-inspire.brandsdev.com.br/uploads/'.$nome_arquivo,
+                'url_capa' => 'https://assets-inspire.brandsdev.com.br/uploads/'.$nome_arquivo,
                 'url_video' => $dados["url_video"],
                 'duracao' => $dados["duracao"],
                 'completed' => $dados["completed"],
@@ -125,11 +125,11 @@ Class Aula extends Model{
             if (isset($file) && $file->getError() === UPLOAD_ERR_OK) {
 
                 $nome_arquivo = rand(1000000000, 10000000000) . '-' . $file->getClientFilename();
-                $caminhoArquivo = __DIR__ . '/../../uploads/' . $nome_arquivo;
+                $caminhoArquivo = __DIR__ . '/../../../../assets-inspire/uploads/' . $nome_arquivo;
                 
                 $file->moveTo($caminhoArquivo);
                 
-                $insert['url_capa'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_arquivo;
+                $insert['url_capa'] = 'https://assets-inspire.brandsdev.com.br/uploads/' . $nome_arquivo;
             }
 
             if (!isset($insert['url_capa'])) {

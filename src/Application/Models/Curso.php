@@ -228,10 +228,10 @@ Class Curso extends Model{
         $nome_capa = rand(1000000000,10000000000). '-' . $file['url_capa']->getClientFilename();
         $nome_destaque = rand(1000000000,10000000000). '-' . $file['url_destaque']->getClientFilename();
 
-        $caminhoCapa = __DIR__ . '/../../../uploads/' . $nome_capa;
+        $caminhoCapa = __DIR__ . '/../../../../assets-inspire/uploads/' . $nome_capa;
         $capa->moveTo($caminhoCapa);
 
-        $caminhoDestaque = __DIR__ . '/../../../uploads/' . $nome_destaque;
+        $caminhoDestaque = __DIR__ . '/../../../../assets-inspire/uploads/' . $nome_destaque;
         $capa->moveTo($caminhoDestaque);
 
         $insert = array(
@@ -241,8 +241,8 @@ Class Curso extends Model{
             'descricao' => $dados["descricao"],
             'nivel' => $dados["nivel"],
             'responsavel' => $dados["responsavel"],
-            'url_capa' => 'https://api-inspire.brandsdev.com.br/uploads/'.$nome_capa,
-            'url_destaque' => 'https://api-inspire.brandsdev.com.br/uploads/'.$nome_destaque
+            'url_capa' => 'https://assets-inspire.brandsdev.com.br/uploads/'.$nome_capa,
+            'url_destaque' => 'https://assets-inspire.brandsdev.com.br/uploads/'.$nome_destaque
         );
 
         $curso = Curso::create( $insert );
@@ -271,21 +271,21 @@ Class Curso extends Model{
         if (isset($capa) && $capa->getError() === UPLOAD_ERR_OK) {
 
             $nome_capa = rand(1000000000, 10000000000) . '-' . $capa->getClientFilename();
-            $caminhoArquivo = __DIR__ . '/../../../uploads/' . $nome_capa;
+            $caminhoArquivo = __DIR__ . '/../../../../assets-inspire/uploads/' . $nome_capa;
             
             $capa->moveTo($caminhoArquivo);
             
-            $insert['url_capa'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_capa;
+            $insert['url_capa'] = 'https://assets-inspire.brandsdev.com.br/uploads/' . $nome_capa;
         }
 
         if (isset($destaque) && $destaque->getError() === UPLOAD_ERR_OK) {
 
             $nome_destaque = rand(1000000000, 10000000000) . '-' . $destaque->getClientFilename();
-            $caminhoArquivo = __DIR__ . '/../../../uploads/' . $nome_destaque;
+            $caminhoArquivo = __DIR__ . '/../../../../assets-inspire/uploads/' . $nome_destaque;
             
             $destaque->moveTo($caminhoArquivo);
             
-            $insert['url_destaque'] = 'https://api-inspire.brandsdev.com.br/uploads/' . $nome_destaque;
+            $insert['url_destaque'] = 'https://assets-inspire.brandsdev.com.br/uploads/' . $nome_destaque;
         }
     
         $curso = Curso::findOrFail($args['id']);
